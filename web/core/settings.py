@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,13 +20,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-d$x6+hru+y4348^3iak#vfp554^ot@a#e(gj145@hm3sahb_wb'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = str(os.environ.get("DEBUG")) == "1"
 
+ALLOWED_HOST = os.environ.get("ENV_ALLOWED_HOSTS")
 ALLOWED_HOSTS = []
-
+if ALLOWED_HOST:
+    ALLOWED_HOSTS = [ALLOWED_HOST]
 
 # Application definition
 
@@ -81,6 +83,39 @@ DATABASES = {
 }
 
 
+DB_USERNAME = os.environ.get("POSTGRES_USER")
+DB_NAME = os.environ.get("POSTGRES_DB")
+DB_PASSWORD = os.environ.get("POSTGRES_PASSWORD")
+DB_HOST = os.environ.get("POSTGRES_HOST")
+DB_PORT = os.environ.get("POSTGRES_PORT")
+
+DB_IS_AVAILABLE = all([
+    DB_USERNAME,
+    DB_PASSWORD,
+    DB_NAME,
+    DB_HOST,
+    DB_PORT
+])
+
+DB_IGNORE_SSL=os.environ.get("DB_IGNORE_SSL") == "true"
+POSTGRES_READY = 1
+
+if DB_IS_AVAILABLE and POSTGRES_READY:
+    DATABASES = {
+        "default": {
+            "ENGINE":"django.db.backends.postgresql",
+            "NAME": DB_NAME,
+            "USER": DB_USERNAME,
+            "PASSWORD": DB_PASSWORD,
+            "PORT": DB_PORT,
+            "HOST": DB_HOST,
+        }
+    }
+    if not DB_IGNORE_SSL:
+        DATABASES["default"]["OPTIONS"] = {
+            "sslmode" : "require"
+        }
+
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -118,6 +153,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / "staticfiles-cdn"
+STATIC_FILES_DIRS= [
+    BASE_DIR / "staticfiles"
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
