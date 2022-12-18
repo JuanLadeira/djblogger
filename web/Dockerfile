@@ -17,7 +17,6 @@ RUN apt-get update && \
     apt-get install -y \ 
     locales \
     libmemcached-dev \ 
-    default-libmysqlclient-dev \ 
     libjpeg-dev \
     zlib1g-dev \
     build-essential \
@@ -51,7 +50,7 @@ RUN python3.10 -m venv /opt/venv
 # requirements.txt must have gunicorn & django
 RUN /opt/venv/bin/pip install pip --upgrade && \
     /opt/venv/bin/pip install -r requirements.txt && \
-    chmod +x config/entrypoint.sh
+    chmod +x config/entrypoint.sh  && chmod +x config/migrate.sh
 
 # entrypoint.sh to run our gunicorn instance
 CMD [ "/app/config/entrypoint.sh" ]
