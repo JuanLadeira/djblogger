@@ -6,3 +6,4 @@ django-storages
 boto3
 django-dotenv
 python-decouple
+pytest-django
