@@ -1,0 +1,7 @@
+#run tests
+pytest
+#That's use to see the coverage in %
+pytest --cov
+#That's use to make html coverage
+pytest --cov-report html --cov=<path>
+example: pytest --cov-report html --cov=./
