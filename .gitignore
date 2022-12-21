@@ -105,7 +105,7 @@ ipython_config.py
 #   commonly ignored for libraries.
 #   https://python-poetry.org/docs/basic-usage/#commit-your-poetrylock-file-to-version-control
 #poetry.lock
-
+.vscode/
 # PEP 582; used by e.g. github.com/David-OConnor/pyflow
 __pypackages__/
 
