@@ -19,7 +19,7 @@ jobs:
         working-directory: ./web
     env:
       DOCKER_USER_NAME: felipe11922
-      REPOSITORY_NAME: dj-blog
+      REPOSITORY_NAME: pub-repository
       HOST_NAME: registry-host:5000
       CONTAINER_NAME: django-k8s-web
       DEPLOYMENT_NAME: django-k8s-web-deployment
