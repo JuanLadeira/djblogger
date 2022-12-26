@@ -15,9 +15,6 @@ jobs:
     name: Setup, Build, Publish, and Deploy
     runs-on: ubuntu-latest
     environment: production
-  docker_build_job:
-    runs-on: ubuntu-latest
-    needs: [test_django_job]
     defaults:
       run:
         working-directory: ./web
