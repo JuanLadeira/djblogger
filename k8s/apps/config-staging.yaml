@@ -1,7 +1,7 @@
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: dj-blog-k8s-web
+  name: lke85010-ctx
   namespace: default
 data:
   APP_ENV: "staging"
