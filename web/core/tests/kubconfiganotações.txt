@@ -1,0 +1,44 @@
+============================SEGURANÇA==========================
+É importante que o .kube esteja declarado no .gitignore para que o arquivo não seja commitado.
+Ou sejam, as configurações do .kube não devem ser publicas.
+=================================================================
+
+================================ WINDOWNS ============================================
+Comando para declarar variavel de ambiente do KUBECONFIG no windowns
+$Env:KUBECONFIG="$HOME\Downloads\k8s-django-kubeconfig.y aml"
+
+Onde a string declarada deve ser o path do arquivo yaml baixado na plataforma da digitalocean após ter 
+criado o kubernets cluster.
+
+Após declarar a variavel de ambiente, podemos verifica-la com o comando:  (windowns)
+$Env:KUBECONFIG
+o output será o path do arquivo
+
+Agora com a variavel declarada, é possivel acessar as nodes do kubernets cluster direto pelo comando:
+    kubectl get nodes
+
+Porem o caminho que está declarado na variavel de ambiente acima não é o mais adequado.
+
+Para estarmos adequados as boas práticas é recomendado que criemos uma pasta .kube para guardarmos a kubeconfig
+
+Portanto, redefinimos a variavel para:
+
+$ENV:KUBECONFIG="C:\Users\Felipe\kuber-django\.kube\k8s-django-kubeconfig.yaml"
+
+É interessante também renomear o arquivo kubeconfig para ficar mais legivel.
+portanto:
+$ENV:KUBECONFIG="C:\Users\Felipe\kuber-django\.kube\kubeconfig.yaml"
+
+================================= FIM WINDOWNS ===============================
+================================= Linux =======================================
+
+Comando para declarar variavel de ambiente do KUBECONFIG no Linux
+export KUBECONFIG=~/Downloads/k8s-django-kubeconfig.yaml
+
+Comando para acessar variavel de ambiente no linux 
+echo $KUBECONFIG
+==================================================================================
+
+
+========== ACESSAR KUBE APÓS ESTAR LOGADO NO PROVEDOR ==================
+kubectl --kubeconfig=$Env:KUBECONFIG get nodes
