@@ -18,6 +18,7 @@ jobs:
       POSTGRES_HOST: localhost
       POSTGRES_PORT: 5432
       DB_IGNORE_SSL: "true"
+      DEBUG: "false"
     services:
       postgres_db:
         image: postgres:14
@@ -26,6 +27,7 @@ jobs:
           POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
           POSTGRES_USER: ${{ env.POSTGRES_USER }}
           POSTGRES_HOST: ${{ env.POSTGRES_HOST }}
+          DEBUG: ${{ env.DEBUG }}
         ports:
           - 5432:5432
         options: >-
