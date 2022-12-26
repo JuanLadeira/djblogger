@@ -10,7 +10,7 @@ on:
 
 jobs:
   test_django_job:
-    uses: F:/github/djblogger/.github/workflows/test_django.yaml@master
+    uses: /github/djblogger/.github/workflows/test_django.yaml@master
   docker_build_job:
     runs-on: ubuntu-latest
     needs: [test_django_job]
