@@ -1,4 +1,4 @@
+from core.tests.factories import PostFactory
 from pytest_factoryboy import register
-from tests.factories import PostFactory
 
 register(PostFactory)
