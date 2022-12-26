@@ -4,62 +4,75 @@ on:
   workflow_call:
   workflow_dispatch:
   push:
-    branches: ["master"]
+    branches: [ "master" ]
   pull_request:
-    branches: ["development"]
+    branches: [ "development" ]
 
 jobs:
   test_django_job:
-    uses: JuanLadeira/kuber-django/.github/workflows/test_django.yaml@master
-  setup-build-publish-deploy:
-    name: Setup, Build, Publish, and Deploy
+    uses: F:/github/djblogger/.github/workflows/test_django.yaml@master
+  docker_build_job:
     runs-on: ubuntu-latest
-    environment: production
+    needs: [test_django_job]
     defaults:
       run:
         working-directory: ./web
+    env:
+      CLUSTER_NAME: k8s-django
+      IMAGE_NAME: django-k8s-web
+      CONTAINER_NAME: django-k8s-web
+      DEPLOYMENT_NAME: dj-blog-k8s-web-deployment
+      ENV_SECRETS: dj-blog-k8s-web-prod-env
+      
+ 
     steps:
-      - name: Checkout codes
-        uses: actions/checkout@v3
-        # Setup gcloud CLI
-      - uses: google-github-actions/setup-gcloud@94337306dda8180d967a56932ceb4ddcf01edae7
-        with:
-          service_account_key: ${{ secrets.GKE_SA_KEY }}
-          project_id: ${{ secrets.GKE_PROJECT }}
-      - run: |-
-          gcloud --quiet auth configure-docker
-      # Get the GKE credentials so we can deploy to the cluster
-      - uses: google-github-actions/get-gke-credentials@fb08709ba27618c31c09e014e1d8364b02e5042e
-        with:
-          cluster_name: ${{ secrets.GKE_CLUSTER }}
-          location: ${{ secrets.GKE_ZONE }}
-          credentials: ${{ secrets.GKE_SA_KEY }}
-      - name: Build
-        run: |-
-          docker build \
-            --tag "gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA" \
-            --build-arg GITHUB_SHA="$GITHUB_SHA" \
-            --build-arg GITHUB_REF="$GITHUB_REF" \
-            .
-    # Push the Docker image to Google Container Registry
-      - name: Publishs
-        run: |-
-          docker push "gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA
-      # Set up kustomize
-      - name: Set up Kustomize
-        run: |-
-          curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
-          chmod u+x ./kustomize
+    - name: Checkout codes
+      uses: actions/checkout@v3
+    - name: Install doctl
+      uses: digitalocean/action-doctl@v2
+      with:
+        token: ${{secrets.DO_API_TOKEN_KEY}}
+    - name: Login to Digital ocean container registry with short-lived credencials
+      run: doctl registry login --expiry-seconds 1200
+    - name: build container image
+      working-directory: ./web
+      run: |
+        docker build -f Dockerfile -t registry.digitalocean.com/${{env.CLUSTER_NAME}}/${{env.IMAGE_NAME}}:latest -t registry.digitalocean.com/${{env.CLUSTER_NAME}}/${{env.IMAGE_NAME}}:${GITHUB_SHA::7} . 
+    - name: push image to container registry.
+      run:
+        docker push registry.digitalocean.com/${{env.CLUSTER_NAME}}/${{env.IMAGE_NAME}} --all-tags
+    - name: K8s cluster kubeconfig file with/ short-lived creds
+      run: | 
+        doctl kubernetes cluster kubeconfig save --expiry-seconds 600 ${{env.CLUSTER_NAME}}
+    - name: Update Deployment secrets
+      working-directory: ./web
+      run: |
+          cat << EOF >> env.prod
+          ENV_ALLOWED_HOSTS=${{ secrets.ENV_ALLOWED_HOSTS }}
+          AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          DJANGO_SUPERUSER_USERNAME=${{ secrets.DJANGO_SUPERUSER_USERNAME }}
+          DJANGO_SUPERUSER_PASSWORD=${{ secrets.DJANGO_SUPERUSER_PASSWORD }}
+          DJANGO_SUERPUSER_EMAIL=${{ secrets.DJANGO_SUERPUSER_EMAIL }}
+          DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}
+          ENV_ALLOWED_HOST=${{ secrets.ENV_ALLOWED_HOST }}
+          POSTGRES_DB=${{ secrets.POSTGRES_DB }}
+          POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_USER=${{ secrets.POSTGRES_USER }}
+          POSTGRES_HOST=${{ secrets.POSTGRES_HOST }}
+          POSTGRES_PORT=${{ secrets.POSTGRES_PORT }}
+          EOF
+          kubectl delete secret django-k8s-web-prod-env
+          kubectl create secret generic django-k8s-web-prod-env --from-env-file=env.prod
 
-      # Deploy the Docker image to the GKE cluster
-      - name: Deploy
-        run: |-
-          ./kustomize edit set image gcr.io/PROJECT_ID/IMAGE:TAG=gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA
-          ./kustomize build . | kubectl apply -f -
-          kubectl rollout status deployment/$DEPLOYMENT_NAME
-          kubectl get services -o wide
-      - name: Migrate database command and collect static files command
-        run: |
-          export SINGLE_POD_NAME=$(kubectl get pod -l app=${{env.DEPLOYMENT_NAME}} -o jsonpath="{.items[0].metadata.name}")
-          kubectl exec -it $SINGLE_POD_NAME -- sh /app/scripts/migrate.sh
-          kubectl exec -it $SINGLE_POD_NAME -- sh /app/scripts/collectstatic.sh
+    - name: Update Deployment image
+      run: |
+        kubectl set image deployment/${{env.DEPLOYMENT_NAME}} ${{env.CONTAINER_NAME}}=registry.digitalocean.com/${{env.CLUSTER_NAME}}/${{env.IMAGE_NAME}}:${GITHUB_SHA::7}
+    - name: Wait for rollout to finish
+      run: |
+        kubectl rollout status deployment/${{env.DEPLOYMENT_NAME}}
+    - name: Migrate database command and collect static files command
+      run: |
+        export SINGLE_POD_NAME=$(kubectl get pod -l app=${{env.DEPLOYMENT_NAME}} -o jsonpath="{.items[0].metadata.name}")
+        kubectl exec -it $SINGLE_POD_NAME -- sh /app/migrate.sh
+        kubectl exec -it $SINGLE_POD_NAME -- sh /app/collectstatic.sh
