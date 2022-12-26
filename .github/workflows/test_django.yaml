@@ -18,7 +18,7 @@ jobs:
       POSTGRES_HOST: localhost
       POSTGRES_PORT: 5432
       DB_IGNORE_SSL: "true"
-      DEBUG: "false"
+      DEBUG: 0
     services:
       postgres_db:
         image: postgres:14
