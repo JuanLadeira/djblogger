@@ -73,8 +73,8 @@ jobs:
       - name: kubernets apply
         run: |
           export DOCKER_CONFIG=$(cat ~/.docker/config.json | base64 -w 0)
-          sed -i'' -e 's/DOCKERHUB_USERNAME/${{ secrets.DOCKERHUB_USERNAME }}/g' -e 's/DOCKERHUB_REPOSITORY/${{ env.REPOSITORY_NAME }}/g' -e 's/IMAGE_LABEL/${{ github.sha }}/g' -e "s/DOCKER_CONFIG/$DOCKER_CONFIG/g" k8s.yaml
-          kubectl apply -f k8s.yaml
+          sed -i'' -e 's/DOCKERHUB_USERNAME/${{ secrets.DOCKERHUB_USERNAME }}/g' -e 's/DOCKERHUB_REPOSITORY/${{ env.REPOSITORY_NAME }}/g' -e 's/IMAGE_LABEL/${{ github.sha }}/g' -e "s/DOCKER_CONFIG/$DOCKER_CONFIG/g" k8s/apps/django-k8s-web.yaml
+          kubectl apply -f k8s/apps/django-k8s-web.yaml
       - name: Update Deployment image
         run: |
           kubectl set image deployment/${{env.DEPLOYMENT_NAME}} ${{env.CONTAINER_NAME}}=${{env.HOST_NAME}}/${{env.DOCKER_USER_NAME}}/${{env.REPOSITORY_NAME}}:DJ${GITHUB_SHA::7}
