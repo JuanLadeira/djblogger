@@ -39,21 +39,17 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Kubernetes set context
+        uses: Azure/k8s-set-context@v1
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBE_CONFIG }}
       - name: build container image
         working-directory: ./web
         run: |
           docker build -f Dockerfile -t ${{env.DOCKER_USER_NAME}}/${{env.REPOSITORY_NAME}}:latest -t ${{env.DOCKER_USER_NAME}}/${{env.REPOSITORY_NAME}}:DJ${GITHUB_SHA::7} .
       - name: push image to container registry.
         run: docker push ${{env.DOCKER_USER_NAME}}/${{env.REPOSITORY_NAME}} --all-tags
-      - name: Switch to staging cluster
-        run: kubectl config use-context lke85010-ctx
-      - uses: swdotcom/update-and-apply-kubernetes-configs@v1
-        with:
-          k8-config-file-paths: k8s/apps/config.yaml k8s/apps/django-k8s-web.yaml
-          replacement-method: defined
-        env:
-          IMAGE_TAG: ${{ github.sha }}
-          CHANGE_CAUSE: ${{ github.event.release.tag_name }}
       - name: Update Deployment secrets
         working-directory: ./web
         run: |
@@ -72,8 +68,8 @@ jobs:
           POSTGRES_HOST=${{ secrets.POSTGRES_HOST }}
           POSTGRES_PORT=${{ secrets.POSTGRES_PORT }}
           EOF
-          kubectl delete secret django-k8s-web-prod-env
-          kubectl create secret generic django-k8s-web-prod-env --from-env-file=env.prod
+          kubectl delete secret dj-blog-k8s-web-prod-env
+          kubectl create secret generic dj-blog-k8s-web-prod-env --from-env-file=env.prod
 
       - name: Update Deployment image
         run: |
