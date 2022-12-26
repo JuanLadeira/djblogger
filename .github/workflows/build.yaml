@@ -40,9 +40,15 @@ jobs:
           docker build -f Dockerfile -t ${{env.DOCKER_USER_NAME}}/${{env.REPOSITORY_NAME}}:latest -t ${{env.DOCKER_USER_NAME}}/${{env.REPOSITORY_NAME}}:DJ${GITHUB_SHA::7} .
       - name: push image to container registry.
         run: docker push ${{env.DOCKER_USER_NAME}}/${{env.REPOSITORY_NAME}} --all-tags
-      - name: K8s cluster kubeconfig file with/ short-lived creds
-        run: |
-          doctl kubernetes cluster kubeconfig save --expiry-seconds 600 ${{env.CLUSTER_NAME}}
+      - name: Switch to staging cluster
+        run: kubectl config use-context staging
+      - uses: swdotcom/update-and-apply-kubernetes-configs@v1
+        with:
+          k8-config-file-paths: k8s/apps/config.yaml k8s/apps/django-k8s-web.yaml
+          replacement-method: defined
+        env:
+          IMAGE_TAG: ${{ github.sha }}
+          CHANGE_CAUSE: ${{ github.event.release.tag_name }}
       - name: Update Deployment secrets
         working-directory: ./web
         run: |

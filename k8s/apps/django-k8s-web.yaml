@@ -3,16 +3,16 @@ kind: Deployment
 metadata:
   name: dj-blog-k8s-web-deployment
   labels:
-    app: dj-blog-k8s-web-deployment
+    app: dj-blog-k8s-web
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: dj-blog-k8s-web-deployment
+      app: dj-blog-k8s-web
   template:
     metadata:
       labels:
-        app: dj-blog-k8s-web-deployment
+        app: dj-blog-k8s-web
     spec:
       containers:
         - name: django-k8s-web
