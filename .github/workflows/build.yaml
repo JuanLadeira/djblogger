@@ -27,7 +27,7 @@ jobs:
       
  
     steps:
-    - name: Checkout code
+    - name: Checkout codes
       uses: actions/checkout@v3
     - name: Install doctl
       uses: digitalocean/action-doctl@v2
@@ -65,7 +65,6 @@ jobs:
           EOF
           kubectl delete secret django-k8s-web-prod-env
           kubectl create secret generic django-k8s-web-prod-env --from-env-file=env.prod
-
     - name: Update Deployment image
       run: |
         kubectl set image deployment/${{env.DEPLOYMENT_NAME}} ${{env.CONTAINER_NAME}}=registry.digitalocean.com/${{env.CLUSTER_NAME}}/${{env.IMAGE_NAME}}:latest
