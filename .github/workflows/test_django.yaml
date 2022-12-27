@@ -11,6 +11,7 @@ jobs:
       run:
         working-directory: ./web
     env:
+      ENV_ALLOWED_HOST: ${{ secrets.ENV_ALLOWED_HOST }}
       DJANGO_SECRET_KEY: B-BV4SmNy17B7ALcDWZDgDCkak5AjqiKRJY729nkCXM
       POSTGRES_DB: dockerdc
       POSTGRES_PASSWORD: password
