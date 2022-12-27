@@ -18,7 +18,7 @@ jobs:
       run:
         working-directory: ./web
     env:
-      REGESTRY_CLUSTER_NAME: k8s-django
+      REGESTRY_CLUSTER_NAME: djblogger-k8s
       CLUSTER_NAME: djblog-k8s
       IMAGE_NAME: django-k8s-web
       CONTAINER_NAME: django-k8s-web
@@ -35,7 +35,7 @@ jobs:
         token: ${{secrets.DO_API_TOKEN_KEY}}
     - name: Login to Digital ocean container registry with short-lived credencials
       run: doctl registry login --expiry-seconds 1200
-    - name: build container image
+    - name: build container images
       working-directory: ./web
       run: |
         docker build -f Dockerfile -t registry.digitalocean.com/${{env.REGESTRY_CLUSTER_NAME}}/${{env.IMAGE_NAME}}:latest -t registry.digitalocean.com/${{env.REGESTRY_CLUSTER_NAME}}/${{env.IMAGE_NAME}}:${GITHUB_SHA::7} . 
