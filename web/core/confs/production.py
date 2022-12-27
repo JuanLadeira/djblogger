@@ -1,10 +1,9 @@
+from core.confs.settings import *
 from decouple import config
-
-from .settings import *
 
 ALLOWED_HOST = config("ENV_ALLOWED_HOSTS")
 if ALLOWED_HOST:
-    ALLOWED_HOSTS = [ALLOWED_HOST]
+    ALLOWED_HOSTS.append(ALLOWED_HOST)
 
 
 DB_USERNAME = config("POSTGRES_USER_PD")
