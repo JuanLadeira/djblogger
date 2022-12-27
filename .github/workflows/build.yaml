@@ -18,7 +18,7 @@ jobs:
       run:
         working-directory: ./web
     env:
-      REGESTRY_CLUSTER_NAME: djblogger-k8s
+      REGESTRY_CLUSTER_NAME: djblog-k8s
       CLUSTER_NAME: djblog-k8s
       IMAGE_NAME: django-k8s-web
       CONTAINER_NAME: django-k8s-web
