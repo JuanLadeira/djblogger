@@ -17,19 +17,16 @@ spec:
       containers:
         - name: dj-blog-k8s-web
           image: registry.digitalocean.com/djblog-k8s/dj-blog-k8s-web:latest
-          imagePullSecrets:
-          - name: do-registry
-          imagePullPolicy: Always
           envFrom:
-            - secretRef:
-                name: dj-blog-k8s-web-prod-env
+          - secretRef:
+              name: django-k8s-web-prod-env
           env:
             - name: PORT
               value: "8002"
           ports:
             - containerPort: 8002
       imagePullSecrets:
-        - name: dj-blog-k8s
+        - name: registry-djblog-k8s
 
 ---
 apiVersion: v1
