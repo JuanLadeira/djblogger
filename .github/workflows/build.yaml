@@ -74,5 +74,5 @@ jobs:
     - name: Migrate database command and collect static files command
       run: |
         export SINGLE_POD_NAME=$(kubectl get pod -l app=${{env.DEPLOYMENT_NAME}} -o jsonpath="{.items[0].metadata.name}")
-        kubectl exec -it $SINGLE_POD_NAME -- sh /app/migrate.sh
-        kubectl exec -it $SINGLE_POD_NAME -- sh /app/collectstatic.sh
+        kubectl exec -it $SINGLE_POD_NAME -- sh /app/config/migrate.sh
+        kubectl exec -it $SINGLE_POD_NAME -- sh /app/config/collectstatic.sh
