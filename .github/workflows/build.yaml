@@ -68,7 +68,7 @@ jobs:
 
     - name: Update Deployment image
       run: |
-        kubectl set image deployment/${{env.DEPLOYMENT_NAME}} ${{env.CONTAINER_NAME}}=registry.digitalocean.com/${{env.CLUSTER_NAME}}/${{env.IMAGE_NAME}}:${GITHUB_SHA::7}
+        kubectl set image deployment/${{env.DEPLOYMENT_NAME}} ${{env.CONTAINER_NAME}}=registry.digitalocean.com/${{env.CLUSTER_NAME}}/${{env.IMAGE_NAME}}:latest
     - name: Wait for rollout to finish
       run: |
         kubectl rollout status deployment/${{env.DEPLOYMENT_NAME}}
