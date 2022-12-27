@@ -20,8 +20,8 @@ jobs:
     env:
       REGESTRY_CLUSTER_NAME: djblog-k8s
       CLUSTER_NAME: djblog-k8s
-      IMAGE_NAME: django-k8s-web
-      CONTAINER_NAME: django-k8s-web
+      IMAGE_NAME: dj-blog-k8s-web
+      CONTAINER_NAME: dj-blog-k8s-web
       DEPLOYMENT_NAME: dj-blog-k8s-web-deployment
       ENV_SECRETS: dj-blog-k8s-web-prod-env
       

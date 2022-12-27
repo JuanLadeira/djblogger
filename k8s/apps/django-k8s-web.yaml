@@ -15,8 +15,8 @@ spec:
         app: dj-blog-k8s-web
     spec:
       containers:
-        - name: django-k8s-web
-          image: registry.digitalocean.com/k8s-django/django-k8s-web:latest
+        - name: dj-blog-k8s-web
+          image: registry.digitalocean.com/k8s-django/dj-blog-k8s-web:latest
           imagePullPolicy: Always
           envFrom:
             - secretRef:
