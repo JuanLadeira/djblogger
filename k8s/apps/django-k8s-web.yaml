@@ -3,20 +3,22 @@ kind: Deployment
 metadata:
   name: dj-blog-k8s-web-deployment
   labels:
-    app: dj-blog-k8s-web
+    app: dj-blog-k8s-web-deployment
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: dj-blog-k8s-web
+      app: dj-blog-k8s-web-deployment
   template:
     metadata:
       labels:
-        app: dj-blog-k8s-web
+        app: dj-blog-k8s-web-deployment
     spec:
       containers:
         - name: dj-blog-k8s-web
-          image: registry.digitalocean.com/k8s-django/dj-blog-k8s-web:latest
+          image: registry.digitalocean.com/djblog-k8s/dj-blog-k8s-web:latest
+          imagePullSecrets:
+          - name: do-registry
           imagePullPolicy: Always
           envFrom:
             - secretRef:
