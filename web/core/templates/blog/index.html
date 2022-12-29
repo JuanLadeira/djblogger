@@ -1,6 +1,10 @@
-{% extends "../base/base.html" %} 
-{% block title %} Code here! 
-{% endblock title %} {% block content %} {% include "../base/navbar.html" %}
-<h1></h1>
+{% extends "../base/base.html" %} {% block title %} Code here! {% endblock title %} {% block content %}
+{% include "../base/navbar.html" %}
+{% include "./components/splash.html" %}
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-lg-8">a</div>
+        <div class="d-none d-lg-block col-4">a</div>
+    </div>
+</div>
 {% endblock content %}
-    
