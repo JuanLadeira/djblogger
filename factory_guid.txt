@@ -1,0 +1,22 @@
+A fim de automaticamente gerarmos os dados referentes as 
+tabelas criadas no projeto e após configurar o factory.py,
+devemos acessar o shell do django utilizando o comando:
+
+-------------------------------------------------
+python manage.py shell                          |
+-------------------------------------------------
+
+Então, importar o objeto PostFactory criado no factory.py, dentro do shell, com o comando:
+
+-------------------------------------------------
+from core.blog.factory import PostFactory       |
+-------------------------------------------------
+
+E ainda dentro do shell devemos criar uma instância do PostFactory e então utilizar o método 
+create_batch para criar os dados referente a tabela Post com o comando:
+
+-------------------------------------------------
+x = PostFactory.create_batch(100)               |
+-------------------------------------------------
+
+Desta maneira estaremos criando dados aleatórios para testarmos o projeto. 
