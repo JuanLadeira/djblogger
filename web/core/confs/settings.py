@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # thirdyapps
     "django_htmx",
+    "taggit",
     # myapps
     "core.blog",
 ]
@@ -75,6 +76,8 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
             ],
+            # tag_cloud globally added
+            "builtins": ["core.blog.templatetags.tag_cloud"],
         },
     },
 ]
