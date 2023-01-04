@@ -1,4 +1,5 @@
 from core.confs.settings import *
+from core.cdn.conf import *  # noqa
 from decouple import config
 
 ALLOWED_HOST = config("ENV_ALLOWED_HOSTS")
