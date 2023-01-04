@@ -1,3 +1,4 @@
+from core.cdn.conf import *  # noqa
 from core.confs.settings import *
 from decouple import config
 
@@ -13,7 +14,7 @@ DB_PORT = config("POSTGRES_PORT")
 DB_IS_AVAILABLE = all([DB_USERNAME, DB_PASSWORD, DB_NAME, DB_HOST, DB_PORT])
 
 DB_IGNORE_SSL = config("DB_IGNORE_SSL") == "true"
-POSTGRES_READY = 1
+POSTGRES_READY = 0
 
 if DB_IS_AVAILABLE and POSTGRES_READY:
     DATABASES = {

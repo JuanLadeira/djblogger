@@ -1,13 +1,10 @@
 from decouple import config
-import os
 
 AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
-if AWS_ACCESS_KEY_ID == None:
-    AWS_ACCESS_KEY_ID = os.environ.get(AWS_ACCESS_KEY_ID")
-    
+
+
 AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
-if AWS_SECRET_ACCESS_KEY == None:
-    AWS_SECRET_ACCESS_KEY = os.environ.get(AWS_SECRET_ACCESS_KEY")
+
 AWS_STORAGE_BUCKET_NAME = "djblog-project"
 AWS_S3_ENDPOINT_URL = "https://sfo3.digitaloceanspaces.com"
 AWS_S3_OBJECTS_PAREMETERS = {"CacheControl": "max-age=86400", "ACL": "public-read"}
