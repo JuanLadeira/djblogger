@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     # thirdyapps
     "django_htmx",
     "taggit",
+    "storages",
     # myapps
     "core.blog",
 ]
@@ -133,8 +134,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = "static/"
-
+STATIC_ROOT = BASE_DIR_OUT / "static-cdn"
 STATICFILES_DIRS = [BASE_DIR_OUT / "static"]
+
+
+from core.cdn.conf import *  # noqa
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
