@@ -50,7 +50,7 @@ jobs:
       run: |
           cat << EOF >> env.prod
           DEBUG=0
-          DB_IGNORE_SSL = "false"
+          DB_IGNORE_SSL = 0
           ENV_ALLOWED_HOSTS=${{ secrets.ENV_ALLOWED_HOSTS }}
           AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
