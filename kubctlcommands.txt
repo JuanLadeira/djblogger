@@ -1,0 +1,58 @@
+============================
+============================
+comando para logar no doctl
+doctl auth init -t <token de credencial>
+============================
+comando para logar no cluster
+kubectl --kubeconfig=$Env:KUBECONFIG get nodes
+ou
+doctl kubernetes cluster kubeconfig save b7b66bff-28cd-4b18-958b-47b0a613c7bd #BUSCAR NO SITE DO digitalocean
+
+============================
+============================
+comando para verificar nodes
+kubectl get nodes
+===========================
+Comando para aplicar deploy
+kubectl apply -f path
+onde: 
+    path == caminho do arquivo yaml (não é necessário colocar entre aspas)
+==============================
+comando para verificar lista de deployments
+kubectl get deployments
+==============================
+comando para veerificar um deployment especificamente
+kubectl get deployment deployment-name
+==============================
+comando para verificar lista de pods
+kubectl get pods
+==============================
+comando para deletar pod
+kubectl delete pod pod-name
+==============================
+comando para acessar o bash de um pod especifico
+kubectl exec -it <podname> -- /bin/bash
+==============================
+comando para listar os services
+ kubectl get service
+==============================
+comando para acessar informações de um service em especifico
+ kubectl get service <servicename> -o yaml
+===============================
+Comando para criar secret que declara variaveis de ambientes sensiveis
+kubectl create secret generic <secret-name> --from-env-file=web/.env.prod
+                      <type>                                  <path do .env>
+=====================================
+===============================
+comando para listar secrets
+kubectl get secrets
+====================================================================
+comando para ver detalhes da secret
+kubectl get secret <secret-name> -o YAML
+======================================================================
+comando para deletar secret
+kubectl delete secret <secret-name>
+=======================================================================
+comando para ver detavelhes da serviceaccount (serve para encontrar a configuração da secrets que precisa ser inserida no .yaml do projeto)
+kubectl get serviceaccount default -o YAML
+

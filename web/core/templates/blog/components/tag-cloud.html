@@ -1,0 +1,16 @@
+<div class="mb-4">
+    <div class="border-bottom">
+        <div class="pb-4">
+            <h4 class="pb-2 fw-bold fs-14 text-center">
+                Discover more of what matters to you
+            </h4>
+            {% for tag in tags %}
+            <span class=" border border-dark p-1 px-3 mb-2 me-1 rounded-pill" style="display:inline-block">
+                <a class="text-decoration-none text-dark fs-15 fw-500">
+                    {{ tag.name }}
+                </a>
+            </span>
+            {% endfor %}
+        </div>
+    </div>
+</div>

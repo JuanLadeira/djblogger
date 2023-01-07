@@ -1,0 +1,17 @@
+apiVersion: skaffold/v4beta1
+kind: Config
+metadata:
+  name: djblogger
+build:
+  artifacts:
+    - image: felipe11922/pub-repository
+      context: web
+      docker:
+        dockerfile: Dockerfile
+  tagPolicy:
+    sha256: {}
+  googleCloudBuild:
+    diskSizeGb: 1
+manifests:
+  rawYaml:
+    - k8s/apps/django-k8s-web.yaml

@@ -1,8 +1,7 @@
-venv
 .env
+.DS_Store
 .env.prod
-venv
-.kube
+db.sqlite3
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -105,8 +104,7 @@ ipython_config.py
 #   commonly ignored for libraries.
 #   https://python-poetry.org/docs/basic-usage/#commit-your-poetrylock-file-to-version-control
 #poetry.lock
-.vscode/
-.kube
+
 # PEP 582; used by e.g. github.com/David-OConnor/pyflow
 __pypackages__/
 
@@ -116,7 +114,7 @@ celerybeat.pid
 
 # SageMath parsed files
 *.sage.py
-db.sqlite3
+
 # Environments
 .env
 .venv
@@ -156,9 +154,8 @@ cython_debug/
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
-local/postgres_data/base/16384/1247
-local/postgres_data/base/16384/1247
-local/postgres_data/base/16384/1247
-local/postgres_data/base/16384/1247_vm.
-local/postgres_data/base/
-local/postgres_data/
+Footer
+© 2022 GitHub, Inc.
+Footer navigation
+Terms
+P
