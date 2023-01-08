@@ -1,0 +1,23 @@
+<style>
+    .title-author{
+        font-size: large;
+        font-weight: bold;
+    }
+</style>
+
+<div class="title-author pb-3"> More from {{ post.author }}</div>
+{% for post in related %}
+<a href="{{ post.get_absolute_url }}" class="text-decoration-none ">
+    <div class=" card border-0 ps-1 py-2">
+        <div class="row">
+            <div class="col-9 pe-2">
+                    <span class="text-dark small"> {{ post.author }}</span>
+                    <h1 class="text-dark mb-1 fs-6 p-0 fw-bold">{{post.title|truncatechars:80}}</h1>
+            </div>
+            <div class="col-3">
+                <img src="https://picsum.photos/205/115" alt="" class="img-fluid float-end">
+            </div>
+        </div>
+    </div>
+    </a>
+    {% endfor %}

@@ -36,6 +36,12 @@
 
 
 {% endblock %}
-{% block content-right %}{% endblock %}
+{% block content-right %}
+{% sidebar_tag_cloud %}
+<div class="col-12">
+        {% include "blog/components/post-list-related.html" %}
+</div>
+
+{% endblock %}
 
 
