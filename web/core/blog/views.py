@@ -1,4 +1,6 @@
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
+from django.shortcuts import get_object_or_404, render
+
 
 from .models import Post
 
@@ -14,3 +16,7 @@ class HomePageView(ListView):
         if self.request.htmx:
             return "blog/components/post-list-elements.html"
         return "blog/index.html"
+
+def singlepostview(request, post):
+    post = get_object_or_404(Post, slug=post, status="published")
+    return render(request, "blog/single.html", {"post": post})
