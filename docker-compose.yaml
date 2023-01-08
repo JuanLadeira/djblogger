@@ -1,32 +1,30 @@
 version: '3.9'
 services:
-  # web:
-  #   depends_on:
-  #     - postgres_db
-  #   build: 
-  #     context: ./web
-  #     dockerfile: Dockerfile
-  #   image: django-k8s:3.10.7-alpine3.16
-  #   environment:
-  #     - PORT=8020
-  #   env_file:
-  #     -  web/.env
-  #   ports:
-  #     - "8001:8020"
-  #   volumes:
-  #     - ./staticfiles:/app/staticfiles/
+  web:
+    depends_on:
+      - db
+    build: 
+      context: ./web
+      dockerfile: Dockerfile
+    environment:
+      - PORT=8020
+    env_file:
+      -  web/.env
+    ports:
+      - "8001:8020"
+    volumes:
+      - ./staticfiles:/app/staticfiles/
     
-  #   command: sh -c "chmod +x /app/config/migrate.sh && sh /app/config/migrate.sh && /app/config/entrypoint.sh"
-  #   networks:
-  #     app_net:  
-  #       ipv4_address: 192.168.0.2
+    command: sh -c "chmod +x /app/config/migrate.sh && sh /app/config/migrate.sh && /app/config/entrypoint.sh"
+    networks:
+      app_net:  
+        ipv4_address: 192.168.0.2
 
   db:
     image: postgres
     restart: always
-    environment:
-      - POSTGRES_USER=kub
-      - POSTGRES_PASSWORD=password
+    env_file:
+      -  web/.env
     command: -p 5433
     ports:
       - "5433:5433"
@@ -34,9 +32,19 @@ services:
       - 5433
     volumes:
       - ./local/postgres_db:/var/lib/postgres_db/data/
-
+    networks:
+      app_net:  
+        ipv4_address: 192.168.0.3
 
 
 volumes:
-  postgres_db:
+  db:
   # staticfiles:
+
+networks:
+  app_net:  
+    ipam:
+      driver: default
+      config:
+        - subnet: "192.168.0.0/24"
+          gateway: 192.168.0.1
