@@ -20,6 +20,7 @@ jobs:
       POSTGRES_PORT: 5432
       DB_IGNORE_SSL: "true"
       DEBUG: "0"
+      TEST: "1"
     services:
       postgres_db:
         image: postgres:14
