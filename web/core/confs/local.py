@@ -1,4 +1,3 @@
-from core.cdn.conf import *  # noqa
 from core.confs.settings import *
 from decouple import config
 
