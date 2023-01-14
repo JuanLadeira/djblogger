@@ -10,6 +10,8 @@ services:
       - PORT=8020
     env_file:
       -  web/.env
+    links:
+      - db:db
     ports:
       - "8001:8020"
     volumes:
@@ -17,34 +19,28 @@ services:
     
     command: sh -c "chmod +x /app/config/migrate.sh && sh /app/config/migrate.sh && /app/config/entrypoint.sh"
     networks:
-      app_net:  
-        ipv4_address: 192.168.0.2
+             - djangonetwork
 
   db:
+    container_name: db
     image: postgres
     restart: always
     env_file:
       -  web/.env
-    command: -p 5433
+    command: -p 5432
     ports:
-      - "5433:5433"
+      - "5432:5432"
     expose:
-      - 5433
+      - 5432
     volumes:
       - ./local/postgres_db:/var/lib/postgres_db/data/
     networks:
-      app_net:  
-        ipv4_address: 192.168.0.3
-
+             - djangonetwork
 
 volumes:
   db:
-  # staticfiles:
+
 
 networks:
-  app_net:  
-    ipam:
-      driver: default
-      config:
-        - subnet: "192.168.0.0/24"
-          gateway: 192.168.0.1
+      djangonetwork:
+          driver: bridge
