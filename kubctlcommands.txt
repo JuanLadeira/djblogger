@@ -42,6 +42,7 @@ comando para acessar informações de um service em especifico
 Comando para criar secret que declara variaveis de ambientes sensiveis
 kubectl create secret generic <secret-name> --from-env-file=web/.env.prod
                       <type>                                  <path do .env>
+kubectl create secret docker-registry                      
 =====================================
 ===============================
 comando para listar secrets
