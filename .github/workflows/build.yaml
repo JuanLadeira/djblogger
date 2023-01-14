@@ -36,6 +36,8 @@ jobs:
         token: ${{secrets.DO_API_TOKEN_KEY}}
     - name: Login to Digital ocean container registry with short-lived credencials
       run: doctl registry login --expiry-seconds 1200
+    - name: Authentication to conntainer registry
+      run: doctl registry docker-config --read-write
     - name: build container images
       working-directory: ./web
       run: |
