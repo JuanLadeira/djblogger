@@ -10,7 +10,7 @@ from decouple import config
 def main():
     """Run administrative tasks."""
     if config("DEBUG") == "1":
-        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.confs.settings")
+        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.confs.local")
     else:
         os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.confs.production")
 
