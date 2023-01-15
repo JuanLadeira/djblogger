@@ -16,7 +16,7 @@ E ainda dentro do shell devemos criar uma instância do PostFactory e então uti
 create_batch para criar os dados referente a tabela Post com o comando:
 
 -------------------------------------------------
-x = PostFactory.create_batch(10)               |
+x = PostFactory.create_batch(200)               |
 -------------------------------------------------
 
 Desta maneira estaremos criando dados aleatórios para testarmos o projeto. 

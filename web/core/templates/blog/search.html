@@ -1,0 +1,28 @@
+{% extends "../base/3-col.html" %}
+{% block title %}
+{% endblock title %}
+
+{% block content-left %}
+{% include "base/navbar-2.html" %}
+{% endblock %}
+{% block content-mid %}
+<div class="center mx-auto" styLe="max-width: 683px;">
+    <h1 class="fs-1 fw-bold pb-5">{% if posts %}
+        <span class="text-muted">Results for </span>{{request.GET.q}}
+        {% else %}
+        <span>There is no results for </span>"{{request.GET.q}}"
+    </h1>
+    {% endif %}
+
+    {% include "blog/components/post-list-elements-search.html" %}
+    {% if not posts %}
+    <div class="col-12 pt-5">
+        <p class="fs-14"> Please, try searching for something else!<p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+{% block content-right %}
+{% sidebar_tag_cloud %}
+{% include 'base/footer.html' %}
+{% endblock %}

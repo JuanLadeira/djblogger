@@ -13,7 +13,7 @@ from decouple import config
 from django.core.wsgi import get_wsgi_application
 
 if config("DEBUG") == "1":
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.confs.local")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.confs.settings")
 else:
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.confs.production")
 

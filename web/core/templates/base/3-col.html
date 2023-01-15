@@ -20,7 +20,9 @@
 
         <div class="col-12 col-lg-8 pt-5 px-4 px-md-5 ">{% block content-mid %}{% endblock %}</div>
 
-        <div class="d-none d-lg-block col-lg-3 pt-5 ps-4 border-start">{% block content-right %}{% endblock %}</div>
+        <div class="d-none d-lg-block col-lg-3 pt-5 ps-4 border-start">
+            {% include "blog/components/search-bar.html" %}{% block content-right %}
+            {% endblock %}</div>
         {% include 'base/footer.html' %}
     </div>
 </div>

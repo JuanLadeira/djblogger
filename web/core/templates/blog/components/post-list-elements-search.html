@@ -1,0 +1,24 @@
+{% for post in posts %}
+<a href="{{ post.get_absolute_url }}" class="text-decoration-none ">
+    {% if forloop.last %}
+    <div class="card border-0 pb-3 pb-sm-5" hx-trigger="revealed" hx-swap="afterend"
+        hx-get="{{ request.get_full_path}}&page={{ page_obj.number|add:1}}">
+        {% else %}
+        <div class=" card border-0 pb-3 pb-sm-5">
+            {% endif %}
+            <div class="row">
+                <div class="col-9">
+                    <div class="card-body border-bottom">
+                        <div class="pb-2 text-body infscroll-author small"> {{ post.author|title }}</div>
+                        <h1 class="mb-1 text-body fw-bold infscroll-title">{{post.title|truncatechars:80}}</h1>
+                        <p class="text-dark fs-6 d-none d-sm-block ft-text fs-14">{{ post.content|truncatechars:180 }}
+                        </p>
+                    </div>
+                </div>
+                <div class="col-3 mt-5 pt-5">
+                    <img src="https://picsum.photos/112/112" alt="" class="img-fluid float-end">
+                </div>
+            </div>
+        </div>
+</a>
+{% endfor %}
