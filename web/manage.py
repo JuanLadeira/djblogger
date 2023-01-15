@@ -4,14 +4,15 @@ import os
 import sys
 
 from core.confs import settings
+from decouple import config
 
 
 def main():
     """Run administrative tasks."""
-    if os.environ.get("DEBUG") == "1":
+    if config("DEBUG") == "1":
         os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.confs.settings")
     else:
-        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.confs.settings")
+        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.confs.production")
 
     try:
         from django.core.management import execute_from_command_line
