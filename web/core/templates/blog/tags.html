@@ -1,0 +1,26 @@
+{% extends "../base/3-col.html" %}
+{% block title %}
+{% endblock title %}
+
+{% block content-left %}
+{% include "base/navbar-2.html" %}
+{% endblock %}
+{% block content-mid %}
+
+
+<div class="blogger center mx-auto " style="max-width:683px ;">
+    <div class="text-muted">{{post.author}}</div>
+    <div class="text-muted pb-5">{{post.updated_at|date:"M d"}}</div>
+    <h1 class="pb-3 fw-bold">{{post.title}}</h1>
+    <h2 class="text-muted fs-4 pb-4">{{post.subtitle}}</h2>
+    <div class="post">
+        {{post.content | markdown | safe }}
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block content-right %}
+{% sidebar_tag_cloud %}
+{% endblock %}

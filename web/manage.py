@@ -9,9 +9,9 @@ from core.confs import settings
 def main():
     """Run administrative tasks."""
     if os.environ.get("DEBUG") == "1":
-        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.confs.local")
+        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.confs.settings")
     else:
-        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.confs.production")
+        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.confs.settings")
 
     try:
         from django.core.management import execute_from_command_line
