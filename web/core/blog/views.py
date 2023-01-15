@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import ListView
 
+from .forms import PostSearchForm
 from .models import Post
 
 # Create your views here.
@@ -29,7 +30,6 @@ class TagListView(ListView):
 
     def get_queryset(self):
         x = Post.objects.filter(tags__name__in=[self.kwargs["tag"]])
-        total = Post.objects.all()
         return x
 
     def get_template_names(self):
@@ -42,3 +42,19 @@ class TagListView(ListView):
         context["tag"] = self.kwargs["tag"]
         return context
         
+class PostSearchView(ListView):
+    model = Post
+    paginate_by = 10
+    context_object_name = "posts"
+    form_class = PostSearchForm
+
+    def get_template_names(self):
+        if self.request.htmx:
+            return "blog/components/post-list-elements-search.html"
+        return "blog/search.html"
+    
+    def get_queryset(self):
+        form = self.form_class(self.request.GET)
+        if form.is_valid():
+            return Post.objects.filter(title__icontains=form.cleaned_data["q"])
+        return []
