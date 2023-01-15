@@ -6,7 +6,7 @@
             </h4>
             {% for tag in tags %}
             <span class=" border border-dark p-1 px-3 mb-2 me-1 rounded-pill" style="display:inline-block">
-                <a class="text-decoration-none text-dark fs-15 fw-500">
+                <a href="{% url 'post_by_tag' tag.slug  %}" class="text-decoration-none text-dark fs-15 fw-500">
                     {{ tag.name }}
                 </a>
             </span>

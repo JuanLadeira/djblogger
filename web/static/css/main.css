@@ -41,3 +41,8 @@ html, body{
     }
 }
 
+.ft-text{
+    font-family: 'Merriweather';
+    line-height: 32px;
+    letter-spacing: 0.2px;
+}
