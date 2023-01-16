@@ -15,9 +15,15 @@
   <title>{% block title %}Hello, world! {% endblock title %}</title>
   <link rel="stylesheet" , href="{% static 'css/main.css' %}" />
   <script src="{% static 'js/htmx.min.js' %}" defer></script>
+
 </head>
 
 <body>
+ 
+   {% block room_name %}
+   {% endblock %}
+   {% block scripts %}
+   {% endblock}
   {% block content %}
   <h1>Hello, world!</h1>
   {% endblock content %}

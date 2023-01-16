@@ -1,0 +1,14 @@
+{% extends "../base/base.html" %}
+{% block head %} {% endblock head %}
+<title>{% block title %} {% endblock title %}</title>
+
+{% block room_name %}
+<div class="" id="user-hello"></div>
+{{ room_name|json_script:"room-name" }}
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'js/chat.js' %}" defer></script>
+{% endblock}
+{% block content %}
+<h1>Hello, world!</h1>
+{% endblock content %}
