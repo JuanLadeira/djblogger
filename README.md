@@ -2,7 +2,12 @@
 
 O projeto consiste na criação de um blog utilizando o django framework.
 
-CURSO: https://www.udemy.com/course/django-project-djblogger/
+CURSOS:
+Djblogger:
+https://www.udemy.com/course/django-project-djblogger/
+
+Deploy django with Kubernets:
+https://www.youtube.com/watch?v=NAOsLaB6Lfc&t=14512s
 ---------------------
 Tecnologias utilizadas neste projeto:
 ---------------------
